@@ -7,7 +7,7 @@ uniapp表单验证组件，用法基本与element ui中的el-form一致，实现
 npm install async-validator --save
 ```
 ### 用法
-参考demo中的用法及注意点
+参考[github demo](https://github.com/EvanMaFYH/evan-form)中的用法及注意点
 
 ### 特别注意点
 
