@@ -1,7 +1,7 @@
 # evan-form
 uniapp表单验证组件，用法基本与element ui中的el-form一致，实现了el-form中比较常用的方法
 
-###依赖于[async-validator](https://github.com/yiminghe/async-validator)
+### 依赖于[async-validator](https://github.com/yiminghe/async-validator)
 ```
 npm install async-validator --save
 ```
@@ -66,13 +66,20 @@ data(){
 ```
 
 ### evan-form props
-| prop | 说明 ｜ 类型 ｜ 可选值 ｜ 默认值 |
--｜:-:｜:-:｜:-:｜-:
-model | 
+| 参数           | 说明            | 类型    | 可选值     | 默认值  |    
+| :------------- | :------------------------------ | :------ | :----- | :--- |  
+| model | 表单的数据对象 | object | - | - |
+| labelStyle | label的样式 | object | - | - |
+| hideRequiredAsterisk | 是否隐藏必填的*号 | boolean | - | false
 
-| prop | 说明                    | 类型    ｜ 可选值     ｜ 默认值  |   
-| ------------- | ------------------------------ | ------｜ ----- | --- |   
-| model | 表单的数据对象 ｜ object | - | - |
+### evan-form methods
+| 方法名   | 说明       | 参数     |   
+| :------- | :--------- | :-------|
+| validate | 对整个表单的校验方法,参数为一个回调函数，传入一个参数，表示校验是否通过 | Function(callback: Function(boolean))
 
-
-
+### evan-form-item props   
+| 参数           | 说明            | 类型    | 可选值     | 默认值  |    
+| :------------- | :------------------------------ | :------ | :----- | :--- |  
+| prop | 表单域 model 字段 | string | 传入 Form 组件的 model 中的字段 | - |
+| labelStyle | label的样式 | object | - | - |
+| label | 标签文本 | string | - | -
