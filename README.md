@@ -84,3 +84,4 @@ data(){
 | prop | 表单域 model 字段 | string | 传入 Form 组件的 model 中的字段 | - |
 | labelStyle | label的样式 | object | - | - |
 | label | 标签文本 | string | - | -
+| contentStyle | label右侧内容的样式 | object| - | - |
