@@ -1,5 +1,6 @@
 # evan-form
-uniapp表单验证组件，用法基本与element ui中的el-form一致，实现了el-form中比较常用的方法
+uniapp表单验证组件，用法基本与element ui中的el-form一致，实现了el-form中比较常用的方法   
+测试过微信小程序、app（非nvue模式）、h5
 
 ### 依赖于[async-validator](https://github.com/yiminghe/async-validator)
 ```
