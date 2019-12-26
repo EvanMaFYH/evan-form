@@ -1,9 +1,12 @@
 <template>
-	<view class="evan-form-item-container" :style="{borderWidth:border?'1rpx':0}">
-		<view v-if="label" class="evan-form-item-container__label" :class="{showAsteriskRect:hasRequiredAsterisk,isRequired:showRequiredAsterisk}"
-		 :style="mLabelStyle">{{label}}</view>
-		<view class="evan-form-item-container__main" :style="contentStyle">
-			<slot></slot>
+	<view>
+		<slot name="formItem" v-if="customizeFormItem"></slot>
+		<view v-else class="evan-form-item-container" :style="{borderWidth:border?'1rpx':0}">
+			<view v-if="label" class="evan-form-item-container__label" :class="{showAsteriskRect:hasRequiredAsterisk,isRequired:showRequiredAsterisk}"
+			 :style="mLabelStyle">{{label}}</view>
+			<view class="evan-form-item-container__main" :style="contentStyle">
+				<slot></slot>
+			</view>
 		</view>
 	</view>
 </template>
@@ -54,6 +57,11 @@
 					}
 				}
 				return false
+			}
+		},
+		data() {
+			return {
+				customizeFormItem: false
 			}
 		},
 		methods: {
@@ -107,7 +115,6 @@
 			getValueByProp(obj, prop) {
 				let tempObj = obj;
 				prop = prop.replace(/\[(\w+)\]/g, '.$1').replace(/^\./, '');
-
 				let keyArr = prop.split('.');
 				let i = 0;
 				for (let len = keyArr.length; i < len - 1; ++i) {
@@ -124,6 +131,7 @@
 			}
 		},
 		mounted() {
+			this.customizeFormItem = this.$scopedSlots.formItem || false
 			const form = this.getParent()
 			if (form) {
 				form.addField({

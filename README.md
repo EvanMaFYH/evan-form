@@ -109,3 +109,8 @@ data(){
 | labelStyle | label的样式 | object | - | - |
 | label | 标签文本 | string | - | -
 | contentStyle | label右侧内容的样式 | object| - | - |
+
+### evan-form-item slot
+| name | 说明 |
+| :--- | :---------------- |
+| formItem | form-item自定义内容，如果用到这个slot，则代表完全自定义form-item内容，组件将不会处理label，必填*号等 |

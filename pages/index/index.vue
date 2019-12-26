@@ -16,6 +16,21 @@
 			<evan-form-item label="自定义label颜色：" :labelStyle="{color:'blue'}"></evan-form-item>
 			<evan-form-item label="自定义宽度默认为auto：" :labelStyle="{width:'190rpx'}"></evan-form-item>
 			<evan-form-item label="不显示底部border：" :border="false"></evan-form-item>
+			<evan-form-item prop="sex">
+				<template v-slot:formItem>
+					<view class="customize-form-item">
+						<view class="customize-form-item__label">完全自定义内容（性别）：</view>
+						<radio-group @change="sexChange">
+							<label class="customize-form-item__radio" v-for="item in sexes" :key="item.value">
+								<view>
+									<radio :value="item.value" :checked="item.value === info.sex" />
+								</view>
+								<view class="customize-form-item__radio__text">{{item.name}}</view>
+							</label>
+						</radio-group>
+					</view>
+				</template>
+			</evan-form-item>
 		</evan-form>
 		<button @click="save" class="evan-form-show__button">保存</button>
 		<button @click="hideReqired" class="evan-form-show__button">{{hideRequiredAsterisk?'显示':'隐藏'}}*号</button>
@@ -33,12 +48,22 @@
 		data() {
 			return {
 				hideRequiredAsterisk: false,
+				sexes: [{
+						name: '男',
+						value: 'man'
+					},
+					{
+						name: '女',
+						value: 'woman'
+					}
+				],
 				// 表单的内容必须初始化
 				info: {
 					name: '',
 					email: '',
 					desc: '',
-					phone: ''
+					phone: '',
+					sex: '',
 				},
 				rules: {
 					name: {
@@ -80,7 +105,11 @@
 						// {
 						// 	validator: this.isMobile
 						// }
-					]
+					],
+					sex: {
+						required: true,
+						message: '请选择性别'
+					}
 				}
 			}
 		},
@@ -116,6 +145,9 @@
 				} else {
 					callback(new Error('手机号格式不正确'))
 				}
+			},
+			sexChange(e) {
+				this.info.sex = e.detail.value
 			}
 		}
 	}
@@ -152,6 +184,25 @@
 			&::before,
 			&::after {
 				border: none;
+			}
+		}
+
+		.customize-form-item {
+			&__label {
+				font-size: 28rpx;
+				color: #333;
+				margin-bottom: 16rpx;
+			}
+
+			&__radio {
+				display: flex;
+				align-items: center;
+				margin-bottom: 16rpx;
+
+				&__text {
+					font-size: 28rpx;
+					color: #333;
+				}
 			}
 		}
 	}
