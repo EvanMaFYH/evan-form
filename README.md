@@ -20,7 +20,7 @@ onLoad() {
     })
 }
 ```
-#### 2. rules中的validator中调用当前methods下的方法会报错，可提前将方法注入
+#### 2. rules中在validator方法中调用当前methods下的方法会报错，可提前将方法注入，或者validator直接调用methods中的方法
 ```
 data(){
     return{
@@ -39,6 +39,30 @@ data(){
                     }
                 }
             }]
+        }
+    }
+}
+```
+```
+data(){
+    return{
+        rules:{
+            phone: [{
+                required: true,
+                message: '请输入手机号'
+            },
+            {
+                validator: this.isMobilePhone
+            }]
+        }
+    }
+},
+methods:{
+    isMobilePhone(rule,value,callback){
+        if (this.$utils.isMobilePhone(value)) {
+            callback()
+        } else {
+            callback(new Error('手机号格式不正确'))
         }
     }
 }

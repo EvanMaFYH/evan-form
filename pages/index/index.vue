@@ -75,7 +75,11 @@
 									callback(new Error('手机号格式不正确'))
 								}
 							}
-						}
+						},
+						// 或者这样也是可以的
+						// {
+						// 	validator: this.isMobile
+						// }
 					]
 				}
 			}
@@ -105,6 +109,13 @@
 					return true
 				}
 				return false
+			},
+			isMobile(rule, value, callback) {
+				if (this.$utils.isMobilePhone(value)) {
+					callback()
+				} else {
+					callback(new Error('手机号格式不正确'))
+				}
 			}
 		}
 	}
