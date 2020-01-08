@@ -95,7 +95,7 @@ data(){
 | :------------- | :------------------------------ | :------ | :----- | :--- |  
 | model | 表单的数据对象 | object | - | - |
 | labelStyle | label的样式 | object | - | - |
-| hideRequiredAsterisk | 是否隐藏必填的*号 | boolean | - | false |
+| hide-required-asterisk | 是否隐藏必填的*号 | boolean | - | false |
 | show-message | 是否显示错误信息，如果为false则由用户通过回调函数中的error信息自定义错误信息 | boolean | - | true |
 
 ### evan-form methods
@@ -109,9 +109,9 @@ data(){
 | 参数           | 说明            | 类型    | 可选值     | 默认值  |    
 | :------------- | :------------------------------ | :------ | :----- | :--- |  
 | prop | 表单域 model 字段 | string | 传入 Form 组件的 model 中的字段 | - |
-| labelStyle | label的样式 | object | - | - |
+| label-style | label的样式 | object | - | - |
 | label | 标签文本 | string | - | -
-| contentStyle | label右侧内容的样式 | object| - | - |
+| content-style | label右侧内容的样式 | object| - | - |
 
 ### evan-form-item slot
 | name | 说明 |

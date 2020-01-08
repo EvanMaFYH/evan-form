@@ -13,8 +13,8 @@
 			<evan-form-item label="自定义验证(手机号)：" prop="phone">
 				<input class="form-input" placeholder-class="form-input-placeholder" v-model="info.phone" placeholder="请输入手机号" />
 			</evan-form-item>
-			<evan-form-item label="自定义label颜色：" :labelStyle="{color:'blue'}"></evan-form-item>
-			<evan-form-item label="自定义宽度默认为auto：" :labelStyle="{width:'190rpx'}"></evan-form-item>
+			<evan-form-item label="自定义label颜色：" :label-style="{color:'blue'}"></evan-form-item>
+			<evan-form-item label="自定义宽度默认为auto：" :label-style="{width:'190rpx'}"></evan-form-item>
 			<evan-form-item label="不显示底部border：" :border="false"></evan-form-item>
 			<evan-form-item prop="sex">
 				<template v-slot:formItem>
