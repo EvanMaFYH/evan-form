@@ -94,7 +94,7 @@ data(){
 | 参数           | 说明            | 类型    | 可选值     | 默认值  |    
 | :------------- | :------------------------------ | :------ | :----- | :--- |  
 | model | 表单的数据对象 | object | - | - |
-| labelStyle | label的样式 | object | - | - |
+| label-style | label的样式 | object | - | - |
 | hide-required-asterisk | 是否隐藏必填的*号 | boolean | - | false |
 | show-message | 是否显示错误信息，如果为false则由用户通过回调函数中的error信息自定义错误信息 | boolean | - | true |
 
