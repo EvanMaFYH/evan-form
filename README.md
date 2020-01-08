@@ -92,7 +92,7 @@ data(){
 
 ### evan-form props
 | 参数           | 说明            | 类型    | 可选值     | 默认值  |    
-| :------------- | :------------------------------ | :------ | :----- | :--- |  
+| :----------------------- | :------------------------------------------ | :------ | :----- | :----- |  
 | model | 表单的数据对象 | object | - | - |
 | label-style | label的样式 | object | - | - |
 | hide-required-asterisk | 是否隐藏必填的*号 | boolean | - | false |
@@ -100,14 +100,14 @@ data(){
 
 ### evan-form methods
 | 方法名   | 说明       | 参数     |   
-| :------- | :--------- | :-------|
+| :--------------- | :------------------------------------ | :-------|
 | validate | 对整个表单的校验方法，参数为一个回调函数，传入两个参数，第一个表示校验是否通过，第二个为校验不同的字段及错误信息 | Function(callback: Function(boolean,errors:array)) |
 | validateFiled | 对表单中指定字段进行的校验方法，第一个参数为需要校验字段的prop值，可以一个也可以多个，多个用数组指定，第二个参数为一个回调函数，传入两个参数，第一个表示校验是否通过，第二个为校验不同的字段及错误信息 | Function(props:array | string, callback: Function(boolean, errors:array)) |
 | setRules | 设置表单的校验规则，参数为需要传入的校验规则 | rules:array，rules配置规则参考[async-validator](https://github.com/yiminghe/async-validator) |
 
 ### evan-form-item props   
 | 参数           | 说明            | 类型    | 可选值     | 默认值  |    
-| :------------- | :------------------------------ | :------ | :----- | :--- |  
+| :------------- | :------------------------------ | :------ | :----- | :----- |  
 | prop | 表单域 model 字段 | string | 传入 Form 组件的 model 中的字段 | - |
 | label-style | label的样式 | object | - | - |
 | label | 标签文本 | string | - | -
@@ -115,5 +115,5 @@ data(){
 
 ### evan-form-item slot
 | name | 说明 |
-| :--- | :---------------- |
+| :--------- | :---------------- |
 | formItem | form-item自定义内容，如果用到这个slot，则代表完全自定义form-item内容，组件将不会处理label，必填*号等 |
