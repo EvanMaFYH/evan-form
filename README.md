@@ -102,7 +102,7 @@ data(){
 | 方法名   | 说明       | 参数     |   
 | :--------------- | :------------------------------------ | :-------|
 | validate | 对整个表单的校验方法，参数为一个回调函数，传入两个参数，第一个表示校验是否通过，第二个为校验不同的字段及错误信息 | Function(callback: Function(boolean,errors:array)) |
-| validateFiled | 对表单中指定字段进行的校验方法，第一个参数为需要校验字段的prop值，可以一个也可以多个，多个用数组指定，第二个参数为一个回调函数，传入两个参数，第一个表示校验是否通过，第二个为校验不同的字段及错误信息 | Function(props:array | string, callback: Function(boolean, errors:array)) |
+| validateFiled | 对表单中指定字段进行的校验方法，第一个参数为需要校验字段的prop值，可以一个也可以多个，多个用数组指定，第二个参数为一个回调函数，传入两个参数，第一个表示校验是否通过，第二个为校验不同的字段及错误信息 | Function(props:array ｜ string, callback: Function(boolean, errors:array)) |
 | setRules | 设置表单的校验规则，参数为需要传入的校验规则 | rules:array，rules配置规则参考[async-validator](https://github.com/yiminghe/async-validator) |
 
 ### evan-form-item props   
