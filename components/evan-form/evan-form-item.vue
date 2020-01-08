@@ -135,7 +135,8 @@
 			const form = this.getParent()
 			if (form) {
 				form.addField({
-					validate: this.validate
+					validate: this.validate,
+					prop: this.prop
 				})
 			}
 		}

@@ -18,6 +18,10 @@
 			hideRequiredAsterisk: {
 				type: Boolean,
 				default: false
+			},
+			showMessage: {
+				type: Boolean,
+				default: true
 			}
 		},
 		computed: {
@@ -58,35 +62,60 @@
 				this.rules = rules || []
 			},
 			validate(callback) {
-				let valid = true;
-
 				// 如果需要验证的fields为空，调用验证时立刻返回callback
 				if (this.fields.length === 0 && callback) {
-					callback(true);
+					callback(true, null);
 				}
-
+				let errors = []
 				for (let i in this.fields) {
 					const field = this.fields[i]
-					field.validate(errors => {
-						if (errors) {
-							if (errors[0]) {
-								uni.showToast({
-									title: errors[0].message,
-									icon: 'none'
-								})
-							}
-							valid = false
-							callback(false)
+					field.validate(err => {
+						if (err && err.length > 0) {
+							errors = errors.concat(err)
 						}
 					})
-					if (!valid) {
-						return false
-					}
 				}
-				callback(true);
+				if (errors.length > 0) {
+					if (this.showMessage) {
+						this.showToast(errors[0].message)
+					}
+					callback(false, errors)
+				} else {
+					callback(true, null)
+				}
+			},
+			validateField(props, callback) {
+				props = [].concat(props)
+				const fields = this.fields.filter(field => props.indexOf(field.prop) !== -1)
+				if (!fields || fields.length === 0) {
+					return
+				}
+				let errors = []
+				for (let i in fields) {
+					const field = fields[i]
+					field.validate((err) => {
+						if (err && err.length > 0) {
+							errors = errors.concat(err)
+						}
+					})
+				}
+				if (errors.length > 0) {
+					if (this.showMessage) {
+						this.showToast(errors[0].message)
+					}
+					callback(false, errors)
+				} else {
+					callback(true, null)
+				}
 			},
 			addField(field) {
-				this.fields.push(field);
+				this.fields.push(field)
+			},
+			showToast(message) {
+				uni.showToast({
+					title: message,
+					icon: 'none'
+				})
 			}
 		}
 	}

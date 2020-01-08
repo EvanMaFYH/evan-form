@@ -1,6 +1,6 @@
 <template>
 	<view class="evan-form-show">
-		<evan-form :hideRequiredAsterisk="hideRequiredAsterisk" ref="form" :model="info">
+		<evan-form :hide-required-asterisk="hideRequiredAsterisk" ref="form" :model="info">
 			<evan-form-item label="姓名：" prop="name">
 				<input class="form-input" placeholder-class="form-input-placeholder" v-model="info.name" placeholder="请输入姓名" />
 			</evan-form-item>
@@ -33,6 +33,8 @@
 			</evan-form-item>
 		</evan-form>
 		<button @click="save" class="evan-form-show__button">保存</button>
+		<button @click="validateSingle" class="evan-form-show__button">只验证邮箱</button>
+		<button @click="validateMultiple" class="evan-form-show__button">只验证邮箱和手机号</button>
 		<button @click="hideReqired" class="evan-form-show__button">{{hideRequiredAsterisk?'显示':'隐藏'}}*号</button>
 	</view>
 </template>
@@ -122,6 +124,24 @@
 		methods: {
 			save() {
 				this.$refs.form.validate((res) => {
+					if (res) {
+						uni.showToast({
+							title: '验证通过'
+						})
+					}
+				})
+			},
+			validateSingle() {
+				this.$refs.form.validateField('email', (res) => {
+					if (res) {
+						uni.showToast({
+							title: '验证通过'
+						})
+					}
+				})
+			},
+			validateMultiple() {
+				this.$refs.form.validateField(['email', 'phone'], (res) => {
 					if (res) {
 						uni.showToast({
 							title: '验证通过'
