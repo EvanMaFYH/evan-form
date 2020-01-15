@@ -4,7 +4,7 @@
 		<view v-else class="evan-form-item-container" :style="{borderWidth:border?'1rpx':0}">
 			<view v-if="label" class="evan-form-item-container__label" :class="{showAsteriskRect:hasRequiredAsterisk,isRequired:showRequiredAsterisk}"
 			 :style="mLabelStyle">{{label}}</view>
-			<view class="evan-form-item-container__main" :style="contentStyle">
+			<view class="evan-form-item-container__main" :style="mContentStyle">
 				<slot></slot>
 			</view>
 		</view>
@@ -34,6 +34,11 @@
 			mLabelStyle() {
 				let labelStyle = Object.assign({}, (this.getParent().labelStyle || {}), (this.labelStyle || {}))
 				let arr = Object.keys(labelStyle).map((key) => `${key}:${labelStyle[key]}`)
+				return arr.join(';')
+			},
+			mContentStyle() {
+				let contentStyle = Object.assign({}, this.contentStyle || {})
+				let arr = Object.keys(contentStyle).map((key) => `${key}:${contentStyle[key]}`)
 				return arr.join(';')
 			},
 			// 整个表单是否有*号
