@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<slot name="formItem" v-if="customizeFormItem"></slot>
+		<slot name="formItem" v-if="$slots.formItem"></slot>
 		<view v-else class="evan-form-item-container" :style="{borderWidth:border?'1rpx':0}">
 			<view v-if="label" class="evan-form-item-container__label" :class="{showAsteriskRect:hasRequiredAsterisk,isRequired:showRequiredAsterisk}"
 			 :style="mLabelStyle">{{label}}</view>
@@ -12,7 +12,6 @@
 </template>
 
 <script>
-	import AsyncValidator from 'async-validator'
 	export default {
 		name: 'EvanFormItem',
 		props: {
@@ -64,11 +63,6 @@
 				return false
 			}
 		},
-		data() {
-			return {
-				customizeFormItem: false
-			}
-		},
 		methods: {
 			// 获取EvanForm组件
 			getParent() {
@@ -80,69 +74,11 @@
 				}
 				return parent
 			},
-			// 获取prop绑定的值
-			getFieldValue() {
-				const form = this.getParent()
-				const model = form.model
-				if (!model || !this.prop) {
-					return ''
-				}
-				return this.getValueByProp(model, this.prop)
-			},
-			// 根据rule验证字段
-			validate(cb) {
-				const rules = this.getRules();
-				if (!rules || rules.length === 0) {
-					if (cb instanceof Function) {
-						cb();
-					}
-					return true;
-				}
-				const descriptor = {
-					[this.prop]: rules
-				};
-				const validator = new AsyncValidator(descriptor);
-				const model = {
-					[this.prop]: this.getFieldValue()
-				};
-				validator.validate(model, {
-					firstFields: true
-				}, (errors) => {
-					cb(errors);
-				});
-			},
 			getRules() {
 				let form = this.getParent()
 				let formRules = form.rules;
 				formRules = formRules ? formRules[this.prop] : [];
 				return [].concat(formRules || []);
-			},
-			getValueByProp(obj, prop) {
-				let tempObj = obj;
-				prop = prop.replace(/\[(\w+)\]/g, '.$1').replace(/^\./, '');
-				let keyArr = prop.split('.');
-				let i = 0;
-				for (let len = keyArr.length; i < len - 1; ++i) {
-					if (!tempObj) break;
-					let key = keyArr[i];
-					if (key in tempObj) {
-						tempObj = tempObj[key];
-					} else {
-						break;
-					}
-				}
-				return tempObj ? (typeof tempObj[keyArr[i]] === 'string' ? tempObj[keyArr[i]].trim() : tempObj[keyArr[i]]) :
-					null
-			}
-		},
-		mounted() {
-			this.customizeFormItem = this.$scopedSlots.formItem || false
-			const form = this.getParent()
-			if (form) {
-				form.addField({
-					validate: this.validate,
-					prop: this.prop
-				})
 			}
 		}
 	}

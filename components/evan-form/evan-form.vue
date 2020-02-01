@@ -5,6 +5,7 @@
 </template>
 
 <script>
+	import utils from './utils.js'
 	export default {
 		name: 'EvanForm',
 		props: {
@@ -53,7 +54,6 @@
 		},
 		data() {
 			return {
-				fields: [],
 				rules: []
 			}
 		},
@@ -62,59 +62,13 @@
 				this.rules = rules || []
 			},
 			validate(callback) {
-				// 如果需要验证的fields为空，调用验证时立刻返回callback
-				if (this.fields.length === 0 && callback) {
-					callback(true, null);
-				}
-				let errors = []
-				for (let i in this.fields) {
-					const field = this.fields[i]
-					field.validate(err => {
-						if (err && err.length > 0) {
-							errors = errors.concat(err)
-						}
-					})
-				}
-				if (errors.length > 0) {
-					if (this.showMessage) {
-						this.showToast(errors[0].message)
-					}
-					callback(false, errors)
-				} else {
-					callback(true, null)
-				}
+				utils.validate(this.model, this.rules, callback, {
+					showMessage: this.showMessage
+				})
 			},
 			validateField(props, callback) {
-				props = [].concat(props)
-				const fields = this.fields.filter(field => props.indexOf(field.prop) !== -1)
-				if (!fields || fields.length === 0) {
-					return
-				}
-				let errors = []
-				for (let i in fields) {
-					const field = fields[i]
-					field.validate((err) => {
-						if (err && err.length > 0) {
-							errors = errors.concat(err)
-						}
-					})
-				}
-				if (errors.length > 0) {
-					if (this.showMessage) {
-						this.showToast(errors[0].message)
-					}
-					callback(false, errors)
-				} else {
-					callback(true, null)
-				}
-			},
-			addField(field) {
-				this.fields.push(field)
-			},
-			showToast(message) {
-				uni.showToast({
-					title: message,
-					icon: 'none'
+				utils.validateField(this.model, this.rules, props, callback, {
+					showMessage: this.showMessage
 				})
 			}
 		}

@@ -17,7 +17,7 @@
 			<evan-form-item label="自定义宽度默认为auto：" :label-style="{width:'190rpx'}"></evan-form-item>
 			<evan-form-item label="不显示底部border：" :border="false"></evan-form-item>
 			<evan-form-item prop="sex">
-				<template v-slot:formItem>
+				<template slot="formItem">
 					<view class="customize-form-item">
 						<view class="customize-form-item__label">完全自定义内容（性别）：</view>
 						<radio-group @change="sexChange">
@@ -33,6 +33,7 @@
 			</evan-form-item>
 		</evan-form>
 		<button @click="save" class="evan-form-show__button">保存</button>
+		<button @click="utilsSave" class="evan-form-show__button">直接调用utils验证</button>
 		<button @click="validateSingle" class="evan-form-show__button">只验证邮箱</button>
 		<button @click="validateMultiple" class="evan-form-show__button">只验证邮箱和手机号</button>
 		<button @click="hideReqired" class="evan-form-show__button">{{hideRequiredAsterisk?'显示':'隐藏'}}*号</button>
@@ -42,6 +43,7 @@
 <script>
 	import EvanForm from '@/components/evan-form/evan-form.vue'
 	import EvanFormItem from '@/components/evan-form/evan-form-item.vue'
+	import utils from '@/components/evan-form/utils.js'
 	export default {
 		components: {
 			EvanForm,
@@ -124,6 +126,15 @@
 		methods: {
 			save() {
 				this.$refs.form.validate((res) => {
+					if (res) {
+						uni.showToast({
+							title: '验证通过'
+						})
+					}
+				})
+			},
+			utilsSave() {
+				utils.validate(this.info, this.rules, (res, errors) => {
 					if (res) {
 						uni.showToast({
 							title: '验证通过'
