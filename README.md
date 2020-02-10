@@ -11,10 +11,10 @@ npm install async-validator --save
 
 ### 特别注意点
 
-#### 1. 由于小程序等的限制，rules不通过props的方式传递，而是通过调用实例方法的方式传递，并且调用方法需放在$nextTick中，不然在h5下会报错
+#### 1. 由于小程序等的限制，rules不通过props的方式传递，而是通过调用实例方法的方式传递，并且调用方法需放在mounted生命周期中，不然在h5以及支付宝小程序等下会报错
 ```
-onLoad() {
-    // 这里必须放在$nextTick中，不然h5会找不到this.$refs.form
+mounted() {
+    ﻿// 这里必须放在mounted中，不然h5，支付宝小程序等会找不到this.$refs.form
     this.$nextTick(() => {
         this.$refs.form.setRules(this.rules)
     })
@@ -90,7 +90,10 @@ data(){
 }
 ```
 
-#### 4. 如果组件的表单样式无论如何都无法满足需求，可以直接通过utils中的方法对自己的表单进行验证
+#### 4. 支付宝小程序中会出现警告但是不影响使用，该警告只在支付宝小程序中出现，不确定是否由于组件代码造成，参考[这里](https://ask.dcloud.net.cn/question/71966)
+**Avoid mutating a prop directly since the value will be overwritten whenever the parent component re-renders. Instead, use a data or computed property based on the prop's value. Prop being mutated: "model"**
+
+#### 5. 如果组件的表单样式无论如何都无法满足需求，可以直接通过utils中的方法对自己的表单进行验证
 
 ### evan-form props
 | 参数           | 说明            | 类型    | 可选值     | 默认值  |    

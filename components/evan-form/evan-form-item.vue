@@ -89,12 +89,13 @@
 		display: flex;
 		flex-direction: row;
 		align-items: flex-start;
-		padding: 30rpx 0;
 		border-bottom: 1rpx solid #eee;
 
 		&__label {
 			font-size: 28rpx;
 			color: #666;
+			line-height: 82rpx;
+			padding: 4rpx 0;
 
 			&.showAsteriskRect::before {
 				content: '';
@@ -110,6 +111,10 @@
 
 		&__main {
 			flex: 1;
+			min-height: 90rpx;
+			display: flex;
+			align-items: center;
+			overflow: hidden;
 		}
 	}
 </style>

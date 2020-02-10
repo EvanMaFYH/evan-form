@@ -58,7 +58,7 @@ const utils = {
 		}
 	},
 	validateItem(rules, prop, value, callback) {
-		if (!rules || rules.length === 0) {
+		if (!rules || JSON.stringify(rules) === '{}') {
 			if (callback instanceof Function) {
 				callback();
 			}

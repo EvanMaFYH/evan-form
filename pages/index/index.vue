@@ -8,13 +8,13 @@
 				<input class="form-input" placeholder-class="form-input-placeholder" v-model="info.email" placeholder="请输入邮箱" />
 			</evan-form-item>
 			<evan-form-item label="简介：" prop="desc">
-				<input class="form-input" placeholder-class="form-input-placeholder" v-model="info.desc" placeholder="请输入简介(10-30个字)" />
+				<textarea class="form-input textarea" placeholder-class="form-input-placeholder" v-model="info.desc" placeholder="请输入简介(10-30个字)" />
 			</evan-form-item>
 			<evan-form-item label="自定义验证(手机号)：" prop="phone">
 				<input class="form-input" placeholder-class="form-input-placeholder" v-model="info.phone" placeholder="请输入手机号" />
 			</evan-form-item>
 			<evan-form-item label="自定义label颜色：" :label-style="{color:'blue'}"></evan-form-item>
-			<evan-form-item label="自定义宽度默认为auto：" :label-style="{width:'190rpx'}"></evan-form-item>
+			<evan-form-item label="自定义宽度默认为auto：" :label-style="{width:'190rpx','line-height':'50rpx'}"></evan-form-item>
 			<evan-form-item label="不显示底部border：" :border="false"></evan-form-item>
 			<evan-form-item prop="sex">
 				<template slot="formItem">
@@ -117,11 +117,9 @@
 				}
 			}
 		},
-		onLoad() {
-			// 这里必须放在$nextTick中，不然h5会找不到this.$refs.form
-			this.$nextTick(() => {
-				this.$refs.form.setRules(this.rules)
-			})
+		mounted() {
+			// 这里必须放在mounted中，不然h5，支付宝小程序等会找不到this.$refs.form
+			this.$refs.form.setRules(this.rules)
 		},
 		methods: {
 			save() {
@@ -187,11 +185,19 @@
 <style lang="scss">
 	.evan-form-show {
 		padding: 0 30rpx;
+		background-color: #fff;
 
 		.form-input {
 			font-size: 28rpx;
 			color: #333;
 			text-align: right;
+			width: 100%;
+			box-sizing: border-box;
+			height: 60rpx;
+			&.textarea{
+				height: 240rpx;
+				padding: 24rpx 0;
+			}
 		}
 
 		.form-input-placeholder {
