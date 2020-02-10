@@ -91,7 +91,7 @@ data(){
 ```
 
 #### 4. 支付宝小程序中会出现警告但是不影响使用，该警告只在支付宝小程序中出现，不确定是否由于组件代码造成，参考[这里](https://ask.dcloud.net.cn/question/71966)
-<font color=#A52A2A>Avoid mutating a prop directly since the value will be overwritten whenever the parent component re-renders. Instead, use a data or computed property based on the prop's value. Prop being mutated: "model"</font>
+`Avoid mutating a prop directly since the value will be overwritten whenever the parent component re-renders. Instead, use a data or computed property based on the prop's value. Prop being mutated: "model"`
 
 #### 5. 如果组件的表单样式无论如何都无法满足需求，可以直接通过utils中的方法对自己的表单进行验证
 
