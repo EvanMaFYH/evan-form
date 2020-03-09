@@ -92,8 +92,7 @@ const utils = {
 				break;
 			}
 		}
-		return tempObj ? (typeof tempObj[keyArr[i]] === 'string' ? tempObj[keyArr[i]].trim() : tempObj[keyArr[i]]) :
-			null
+		return tempObj ? (typeof tempObj[keyArr[i]] === 'string' ? tempObj[keyArr[i]].trim() : tempObj[keyArr[i]]) : null
 	},
 	showToast: (message) => {
 		uni.showToast({
@@ -102,5 +101,4 @@ const utils = {
 		})
 	}
 }
-
 export default utils

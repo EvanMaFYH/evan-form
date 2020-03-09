@@ -11,11 +11,10 @@
 		props: {
 			labelStyle: {
 				type: Object,
-				default: () => {
-					return {}
-				}
+				default: () => {}
 			},
 			model: Object,
+			rules: Object,
 			hideRequiredAsterisk: {
 				type: Boolean,
 				default: false
@@ -52,22 +51,48 @@
 				return false
 			}
 		},
-		data() {
-			return {
-				rules: []
-			}
-		},
 		methods: {
-			setRules(rules) {
-				this.rules = rules || []
+			getRules(rules) {
+				// console.log(this);
+				let obj = {};
+				let childrenComp = {};
+				let propNameList = [];
+				
+				// 仅出现在 H5 平台下的代码
+				// #ifdef H5
+				childrenComp = this.$children[0].$children;
+				// #endif
+				
+				// 除了 H5 平台，其它平台均存在的代码
+				// #ifndef H5
+				childrenComp = this.$children;
+				// #endif
+				
+				propNameList = childrenComp.reduce((arr,item) => {
+					item.prop && arr.push(item.prop);
+					return arr;
+				},[]);
+				
+				propNameList = Array.from(new Set(propNameList));
+				// console.log(propNameList);
+				
+				propNameList.map(name => {
+					for(let k in rules) {
+						if(name == k) {
+							obj[name] = rules[k];
+						}
+					}
+				})
+				
+				return obj;
 			},
 			validate(callback) {
-				utils.validate(this.model, this.rules, callback, {
+				utils.validate(this.model, this.getRules(this.rules), callback, {
 					showMessage: this.showMessage
 				})
 			},
 			validateField(props, callback) {
-				utils.validateField(this.model, this.rules, props, callback, {
+				utils.validateField(this.model, this.getRules(this.rules), props, callback, {
 					showMessage: this.showMessage
 				})
 			}

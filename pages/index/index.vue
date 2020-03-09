@@ -1,11 +1,11 @@
 <template>
 	<view class="evan-form-show">
-		<evan-form :hide-required-asterisk="hideRequiredAsterisk" ref="form" :model="info">
+		<evan-form :hide-required-asterisk="hideRequiredAsterisk" ref="form" :model="info" :rules="rules">
+			<evan-form-item label="邮箱：" prop="email" v-if="showFlag">
+				<input class="form-input" placeholder-class="form-input-placeholder" v-model="info.email" placeholder="请输入邮箱" />
+			</evan-form-item>
 			<evan-form-item label="姓名：" prop="name">
 				<input class="form-input" placeholder-class="form-input-placeholder" v-model="info.name" placeholder="请输入姓名" />
-			</evan-form-item>
-			<evan-form-item label="邮箱：" prop="email">
-				<input class="form-input" placeholder-class="form-input-placeholder" v-model="info.email" placeholder="请输入邮箱" />
 			</evan-form-item>
 			<evan-form-item label="简介：" prop="desc">
 				<textarea class="form-input textarea" placeholder-class="form-input-placeholder" v-model="info.desc" placeholder="请输入简介(10-30个字)" />
@@ -114,12 +114,16 @@
 						required: true,
 						message: '请选择性别'
 					}
-				}
+				},
+				showFlag: true,
 			}
 		},
 		mounted() {
-			// 这里必须放在mounted中，不然h5，支付宝小程序等会找不到this.$refs.form
-			this.$refs.form.setRules(this.rules)
+			// 测试修改校验
+			setTimeout(() => {
+				this.showFlag = false;
+				this.rules.name.required = false;
+			},1000);
 		},
 		methods: {
 			save() {
@@ -132,7 +136,7 @@
 				})
 			},
 			utilsSave() {
-				utils.validate(this.info, this.rules, (res, errors) => {
+				utils.validate(this.info, this.$refs.form.getRules(this.rules), (res, errors) => {
 					if (res) {
 						uni.showToast({
 							title: '验证通过'

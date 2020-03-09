@@ -19,9 +19,7 @@
 			label: String,
 			contentStyle: {
 				type: Object,
-				default: () => {
-					return {}
-				}
+				default: () => {}
 			},
 			prop: String,
 			border: {
