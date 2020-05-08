@@ -8,6 +8,7 @@ const utils = {
 		// 如果需要验证的fields为空，调用验证时立刻返回callback
 		if ((!rules || rules.length === 0) && callback) {
 			callback(true, null);
+			return true
 		}
 		let errors = []
 		const props = Object.keys(rules)
@@ -65,6 +66,11 @@ const utils = {
 			return true;
 		}
 		const propRules = [].concat(rules[prop] || []);
+		propRules.forEach((rule) => {
+			if (rule.pattern) {
+				rule.pattern = new RegExp(rule.pattern)
+			}
+		})
 		const descriptor = {
 			[prop]: propRules
 		};

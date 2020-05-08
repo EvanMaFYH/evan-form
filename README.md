@@ -11,7 +11,7 @@ npm install async-validator --save
 
 ### 特别注意点
 
-#### 1. 由于小程序等的限制，rules不通过props的方式传递，而是通过调用实例方法的方式传递，并且调用方法需放在mounted生命周期中，不然在h5以及支付宝小程序等下会报错
+#### 1. 由于小程序等的限制，不能传递function（会变成一个空对象），如果使用到了自定义校验validator，rules不通过props的方式传递，而是通过调用实例方法的方式传递，并且调用方法需放在mounted生命周期中，不然在h5以及支付宝小程序等下会报错，如果没有使用到了自定义校验validator，则依然可以通过prop的方式传递`（v2.1.0开始支持）`
 ```
 mounted() {
     ﻿// 这里必须放在mounted中，不然h5，支付宝小程序等会找不到this.$refs.form
@@ -20,7 +20,14 @@ mounted() {
     })
 }
 ```
-#### 2. rules中在validator方法中调用当前methods下的方法会报错，可提前将方法注入，或者validator直接调用methods中的方法
+#### 2. 由于小程序等的限制，不能传递正则表达式，所以如果通过prop方式传递rules，并且使用到pattern正则校验的时候需要通过string方式传递，需要将两边的斜杠去除，并且内部的斜杠需要变成双斜杠，具体可以参考demo中的正则校验
+```
+	{
+		pattern: '^1\\d{10}$',
+		message: '手机号格式不正确'
+	}
+```
+#### 3. rules中在validator方法中调用当前methods下的方法会报错，可提前将方法注入，或者validator直接调用methods中的方法
 ```
 data(){
     return{
@@ -67,7 +74,7 @@ methods:{
     }
 }
 ```
-#### 3. 表单的内容需要初始化
+#### 4. 表单的内容需要初始化
 错误
 ```
 data(){
@@ -90,12 +97,12 @@ data(){
 }
 ```
 
-#### 4. 支付宝小程序中会出现警告但是不影响使用，该警告只在支付宝小程序中出现，不确定是否由于组件代码造成，参考[这里](https://ask.dcloud.net.cn/question/71966)
+#### 5. 支付宝小程序中会出现警告但是不影响使用，该警告只在支付宝小程序中出现，不确定是否由于组件代码造成，参考[这里](https://ask.dcloud.net.cn/question/71966)
 `Avoid mutating a prop directly since the value will be overwritten whenever the parent component re-renders. Instead, use a data or computed property based on the prop's value. Prop being mutated: "model"`
 
-#### 5. 如果组件的表单样式无论如何都无法满足需求，可以直接通过utils中的方法对自己的表单进行验证
+#### 6. 如果组件的表单样式无论如何都无法满足需求，可以直接通过utils中的方法对自己的表单进行验证
 
-#### 6. 嵌套在例如uniPopup等自定义组件中使用的时候在支付宝小程序会导致evanFormItem组件找不到父组件从而导致出错，建议这种情况下直接使用utils中的方法
+#### 7. 嵌套在例如uniPopup等自定义组件中使用的时候在支付宝小程序会导致evanFormItem组件找不到父组件从而导致出错，建议这种情况下直接使用utils中的方法
 
 ### evan-form props
 | 参数           | 说明            | 类型    | 可选值     | 默认值  |    
@@ -104,6 +111,8 @@ data(){
 | label-style | label的样式 | object | - | - |
 | hide-required-asterisk | 是否隐藏必填的*号 | boolean | - | false |
 | show-message | 是否显示错误信息，如果为false则由用户通过回调函数中的error信息自定义错误信息 | boolean | - | true |
+| label-position | 整个表单label的位置，会被evan-form-item中的该属性覆盖 | string | left/top | left |
+| rules | 校验规则 | object | - | - |
 
 ### evan-form methods
 | 方法名   | 说明       | 参数     |   
@@ -119,6 +128,7 @@ data(){
 | label-style | label的样式 | object | - | - |
 | label | 标签文本 | string | - | -
 | content-style | label右侧内容的样式 | object| - | - |
+| label-position | label的位置，如果不设置则以evan-form中的该属性为准 | string | left/top | - |
 
 ### evan-form-item slot
 | name | 说明 |

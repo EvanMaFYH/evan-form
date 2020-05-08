@@ -23,6 +23,18 @@
 			showMessage: {
 				type: Boolean,
 				default: true
+			},
+			labelPosition: {
+				validator: function(value) {
+					return ['top', 'left'].indexOf(value) !== -1
+				},
+				default: 'left'
+			},
+			rules: {
+				type: Object,
+				default: () => {
+					return {}
+				}
 			}
 		},
 		computed: {
@@ -31,8 +43,8 @@
 				if (this.hideRequiredAsterisk) {
 					return false
 				}
-				if (this.rules) {
-					const values = Object.values(this.rules)
+				if (this.mRules) {
+					const values = Object.values(this.mRules)
 					if (values && values.length > 0) {
 						for (let i = 0; i < values.length; i++) {
 							const value = values[i]
@@ -52,22 +64,31 @@
 				return false
 			}
 		},
+		watch: {
+			rules: {
+				immediate: true,
+				deep: true,
+				handler(value) {
+					this.mRules = value || {}
+				}
+			}
+		},
 		data() {
 			return {
-				rules: []
+				mRules: {}
 			}
 		},
 		methods: {
 			setRules(rules) {
-				this.rules = rules || []
+				this.mRules = rules || {}
 			},
 			validate(callback) {
-				utils.validate(this.model, this.rules, callback, {
+				utils.validate(this.model, this.mRules, callback, {
 					showMessage: this.showMessage
 				})
 			},
 			validateField(props, callback) {
-				utils.validateField(this.model, this.rules, props, callback, {
+				utils.validateField(this.model, this.mRules, props, callback, {
 					showMessage: this.showMessage
 				})
 			}
@@ -75,6 +96,6 @@
 	}
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 	.evan-form-container {}
 </style>

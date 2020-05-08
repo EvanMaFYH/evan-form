@@ -7,9 +7,9 @@
 			<evan-form-item label="邮箱：" prop="email">
 				<input class="form-input" placeholder-class="form-input-placeholder" v-model="info.email" placeholder="请输入邮箱" />
 			</evan-form-item>
-			<evan-form-item label="简介：" prop="desc">
+			<evan-form-item label="简介：" prop="desc" label-position="top">
 				<textarea class="form-input textarea" placeholder-class="form-input-placeholder" v-model="info.desc" placeholder="请输入简介(10-30个字)" />
-			</evan-form-item>
+				</evan-form-item>
 			<evan-form-item label="自定义验证(手机号)：" prop="phone">
 				<input class="form-input" placeholder-class="form-input-placeholder" v-model="info.phone" placeholder="请输入手机号" />
 			</evan-form-item>
@@ -32,10 +32,23 @@
 				</template>
 			</evan-form-item>
 		</evan-form>
+		<view>rules通过prop的方式传递，前提是规则中不存在function</view>
+		<evan-form ref="form2" :hide-required-asterisk="hideRequiredAsterisk" :model="info2" :rules="rules2">
+			<evan-form-item label="姓名：" prop="name">
+				<input class="form-input" placeholder-class="form-input-placeholder" v-model="info2.name" placeholder="请输入姓名" />
+			</evan-form-item>
+			<evan-form-item label="邮箱：" prop="email">
+				<input class="form-input" placeholder-class="form-input-placeholder" v-model="info2.email" placeholder="请输入邮箱" />
+			</evan-form-item>
+			<evan-form-item label="正则手机号：" prop="phone">
+				<input class="form-input" placeholder-class="form-input-placeholder" v-model="info2.phone" placeholder="请输入手机号" />
+			</evan-form-item>
+		</evan-form>
 		<button @click="save" class="evan-form-show__button">保存</button>
 		<button @click="utilsSave" class="evan-form-show__button">直接调用utils验证</button>
 		<button @click="validateSingle" class="evan-form-show__button">只验证邮箱</button>
 		<button @click="validateMultiple" class="evan-form-show__button">只验证邮箱和手机号</button>
+		<button @click="saveForm2" class="evan-form-show__button">校验第二个表单</button>
 		<button @click="hideReqired" class="evan-form-show__button">{{hideRequiredAsterisk?'显示':'隐藏'}}*号</button>
 	</view>
 </template>
@@ -114,6 +127,33 @@
 						required: true,
 						message: '请选择性别'
 					}
+				},
+				info2:{
+					name:'',
+					email:'',
+					phone:''
+				},
+				rules2:{
+					name: {
+						required: true,
+						message: '请输入姓名'
+					},
+					email: [{
+						required: true,
+						message: '请输入邮箱'
+					}, {
+						type: 'email',
+						message: '邮箱格式不正确'
+					}],
+					phone:[{
+							required: true,
+							message: '请输入手机号'
+						},
+						{
+							pattern:'^1\\d{10}$', // 注意这里由于小程序的缘故正则表达式需要通过string的方式传递并且去除两边的斜杠，中间的斜杠变成两个斜杠
+							message:'手机号格式不正确'
+						}
+					]
 				}
 			}
 		},
@@ -124,6 +164,15 @@
 		methods: {
 			save() {
 				this.$refs.form.validate((res) => {
+					if (res) {
+						uni.showToast({
+							title: '验证通过'
+						})
+					}
+				})
+			},
+			saveForm2(){
+				this.$refs.form2.validate((res) => {
 					if (res) {
 						uni.showToast({
 							title: '验证通过'
@@ -197,12 +246,13 @@
 			&.textarea{
 				height: 240rpx;
 				padding: 24rpx 0;
+				text-align: left;
 			}
 		}
 
 		.form-input-placeholder {
 			font-size: 28rpx;
-			color: #999
+			color: #999;
 		}
 
 		&__button {
