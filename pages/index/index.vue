@@ -54,14 +54,8 @@
 </template>
 
 <script>
-	import EvanForm from '@/components/evan-form/evan-form.vue'
-	import EvanFormItem from '@/components/evan-form/evan-form-item.vue'
 	import utils from '@/components/evan-form/utils.js'
 	export default {
-		components: {
-			EvanForm,
-			EvanFormItem
-		},
 		data() {
 			return {
 				hideRequiredAsterisk: false,

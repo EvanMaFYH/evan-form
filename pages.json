@@ -7,6 +7,9 @@
 			}
 		}
 	],
+	"easycom": {
+		"autoscan": true
+	},
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "uni-app",
