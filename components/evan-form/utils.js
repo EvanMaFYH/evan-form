@@ -12,6 +12,7 @@ const utils = {
 		}
 		let errors = []
 		const props = Object.keys(rules)
+		let count = 0
 		for (let i in props) {
 			const prop = props[i]
 			const value = utils.getValueByProp(model, prop)
@@ -19,15 +20,19 @@ const utils = {
 				if (err && err.length > 0) {
 					errors = errors.concat(err)
 				}
+				// 处理异步校验，等所有校验都结束时再callback
+				count++
+				if (count === props.length) {
+					if (errors.length > 0) {
+						if (options.showMessage) {
+							utils.showToast(errors[0].message)
+						}
+						callback(false, errors)
+					} else {
+						callback(true, null)
+					}
+				}
 			})
-		}
-		if (errors.length > 0) {
-			if (options.showMessage) {
-				utils.showToast(errors[0].message)
-			}
-			callback(false, errors)
-		} else {
-			callback(true, null)
 		}
 	},
 	validateField: (model, rules, props, callback, options) => {
@@ -40,6 +45,7 @@ const utils = {
 			return
 		}
 		let errors = []
+		let count = 0
 		for (let i in props) {
 			const prop = props[i]
 			const value = utils.getValueByProp(model, prop)
@@ -47,15 +53,19 @@ const utils = {
 				if (err && err.length > 0) {
 					errors = errors.concat(err)
 				}
+				// 处理异步校验，等所有校验都结束时再callback
+				count++
+				if (count === props.length) {
+					if (errors.length > 0) {
+						if (options.showMessage) {
+							utils.showToast(errors[0].message)
+						}
+						callback(false, errors)
+					} else {
+						callback(true, null)
+					}
+				}
 			})
-		}
-		if (errors.length > 0) {
-			if (options.showMessage) {
-				utils.showToast(errors[0].message)
-			}
-			callback(false, errors)
-		} else {
-			callback(true, null)
 		}
 	},
 	validateItem(rules, prop, value, callback) {
