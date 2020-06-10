@@ -82,15 +82,27 @@
 			setRules(rules) {
 				this.mRules = rules || {}
 			},
-			validate(callback) {
-				utils.validate(this.model, this.mRules, callback, {
-					showMessage: this.showMessage
-				})
+			async validate(callback) {
+				if (typeof callback === 'function') {
+					utils.validate(this.model, this.mRules, callback, {
+						showMessage: this.showMessage
+					})
+				} else {
+					return await utils.validate(this.model, this.mRules, callback, {
+						showMessage: this.showMessage
+					})
+				}
 			},
-			validateField(props, callback) {
-				utils.validateField(this.model, this.mRules, props, callback, {
-					showMessage: this.showMessage
-				})
+			async validateField(props, callback) {
+				if (typeof callback === 'function') {
+					utils.validateField(this.model, this.mRules, props, callback, {
+						showMessage: this.showMessage
+					})
+				} else {
+					return await utils.validateField(this.model, this.mRules, props, callback, {
+						showMessage: this.showMessage
+					})
+				}
 			}
 		}
 	}

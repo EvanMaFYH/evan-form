@@ -45,6 +45,8 @@
 			</evan-form-item>
 		</evan-form>
 		<button @click="save" class="evan-form-show__button">保存</button>
+		<button @click="promiseSave" class="evan-form-show__button">promise保存</button>
+		<button @click="asyncSave" class="evan-form-show__button">async await保存</button>
 		<button @click="utilsSave" class="evan-form-show__button">直接调用utils验证</button>
 		<button @click="validateSingle" class="evan-form-show__button">只验证邮箱</button>
 		<button @click="validateMultiple" class="evan-form-show__button">只验证邮箱和手机号</button>
@@ -164,6 +166,26 @@
 						})
 					}
 				})
+			},
+			promiseSave(){
+				this.$refs.form.validate().then((res)=>{
+					uni.showToast({
+						title: '验证通过'
+					})
+				}).catch(()=>{
+				})
+			},
+			async asyncSave(){
+				try{
+					const result=await this.$refs.form.validate()
+					if(result){
+						uni.showToast({
+							title: '验证通过'
+						})
+					}
+				} catch(e){
+					console.log(e)
+				}
 			},
 			saveForm2(){
 				this.$refs.form2.validate((res) => {

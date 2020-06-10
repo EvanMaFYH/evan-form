@@ -5,6 +5,14 @@ const utils = {
 			showMessage: true
 		}
 		options = Object.assign({}, initOptions, options || {})
+		let promise = null;
+		if (typeof callback !== 'function') {
+			promise = new Promise((resolve, reject) => {
+				callback = function(valid) {
+					valid ? resolve(valid) : reject(valid)
+				}
+			})
+		}
 		// 如果需要验证的fields为空，调用验证时立刻返回callback
 		if ((!rules || rules.length === 0) && callback) {
 			callback(true, null);
@@ -34,12 +42,23 @@ const utils = {
 				}
 			})
 		}
+		if (promise) {
+			return promise
+		}
 	},
 	validateField: (model, rules, props, callback, options) => {
 		const initOptions = {
 			showMessage: true
 		}
 		options = Object.assign({}, initOptions, options || {})
+		let promise = null;
+		if (typeof callback !== 'function') {
+			promise = new Promise((resolve, reject) => {
+				callback = function(valid) {
+					valid ? resolve(valid) : reject(valid)
+				}
+			})
+		}
 		props = [].concat(props)
 		if (props.length === 0) {
 			return
@@ -66,6 +85,9 @@ const utils = {
 					}
 				}
 			})
+		}
+		if (promise) {
+			return promise
 		}
 	},
 	validateItem(rules, prop, value, callback) {
