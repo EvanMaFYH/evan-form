@@ -36,8 +36,21 @@
 					return ['top', 'left'].indexOf(value) !== -1
 				},
 				default: ''
+			},
+			required: {
+				type: Boolean,
+				default: false
+			},
+			message: {
+				type: String,
+				default: ''
+			},
+			rules: {
+				type: [Object, Array],
+				default: null
 			}
 		},
+		inject: ['evanForm'],
 		computed: {
 			mLabelStyle() {
 				const parent = this.getParent()
@@ -80,26 +93,30 @@
 						return true
 					}
 				}
-				return false
+				return this.required
 			}
 		},
 		methods: {
 			// 获取EvanForm组件
 			getParent() {
-				let parent = this.$parent
-				let parentName = parent.$options.name
-				while (parentName !== 'EvanForm') {
-					parent = parent.$parent
-					parentName = parent.$options.name
-				}
-				return parent
+				return this.evanForm
 			},
 			getRules() {
 				let form = this.getParent()
-				let formRules = form.mRules;
-				formRules = formRules ? formRules[this.prop] : [];
-				return [].concat(formRules || []);
+				const formRules = form.mRules && form.mRules[this.prop] ? form.mRules[this.prop] : [];
+				const selfRules = this.rules
+				const requiredRules = this.required ? {
+					required: true,
+					message: this.message || `${this.label}必填`
+				} : []
+				return [].concat(selfRules || formRules || []).concat(requiredRules)
 			}
+		},
+		created() {
+			this.evanForm.$emit('evan.form.addField', this)
+		},
+		beforeDestroy() {
+			this.evanForm.$emit('evan.form.removeField', this)
 		}
 	}
 </script>
@@ -118,7 +135,7 @@
 			&.showAsteriskRect::before {
 				content: '';
 				color: #F56C6C;
-				width: 30rpx;
+				width: 20rpx;
 				display: inline-block;
 			}
 

@@ -37,6 +37,11 @@
 				}
 			}
 		},
+		provide() {
+			return {
+				evanForm: this
+			}
+		},
 		computed: {
 			// 整个form是否有*号，为了保证label对齐，而不是和*号对齐
 			hasRequiredAsterisk() {
@@ -61,7 +66,7 @@
 						}
 					}
 				}
-				return false
+				return this.childHasRequired
 			}
 		},
 		watch: {
@@ -75,7 +80,9 @@
 		},
 		data() {
 			return {
-				mRules: {}
+				mRules: {},
+				fields: [],
+				childHasRequired: false
 			}
 		},
 		methods: {
@@ -83,8 +90,9 @@
 				this.mRules = rules || {}
 			},
 			async validate(callback) {
+				const rules = this.getRules()
 				if (typeof callback === 'function') {
-					utils.validate(this.model, this.mRules, callback, {
+					utils.validate(this.model, rules, callback, {
 						showMessage: this.showMessage
 					})
 				} else {
@@ -94,8 +102,9 @@
 				}
 			},
 			async validateField(props, callback) {
+				const rules = this.getRules()
 				if (typeof callback === 'function') {
-					utils.validateField(this.model, this.mRules, props, callback, {
+					utils.validateField(this.model, rules, props, callback, {
 						showMessage: this.showMessage
 					})
 				} else {
@@ -103,7 +112,53 @@
 						showMessage: this.showMessage
 					})
 				}
+			},
+			getRules() {
+				const rules = {}
+				this.fields.forEach((field) => {
+					if (field.prop) {
+						const requiredRules = field.required ? {
+							required: true,
+							message: field.message || `${field.label}必填`
+						} : []
+						const formRules = this.mRules && this.mRules[field.prop] ? this.mRules[field.prop] : []
+						rules[field.prop] = [].concat(field.rules || formRules || []).concat(requiredRules)
+					}
+				})
+				return rules
 			}
+		},
+		created() {
+			this.$on('evan.form.addField', (field) => {
+				// 小程序中直接push field报错
+				if (field.prop) {
+					this.fields.push({
+						rules: field.rules,
+						prop: field.prop,
+						required: field.required,
+						label: field.label,
+						message: field.message,
+						_uid: field._uid
+					})
+					if (!this.childHasRequired) {
+						if (field.required) {
+							this.childHasRequired = field.required
+							return
+						}
+						if (field.rules) {
+							const fieldRules = [].concat(field.rules)
+							fieldRules.forEach((item) => {
+								if (item.required) {
+									this.childHasRequired = true
+								}
+							})
+						}
+					}
+				}
+			})
+			this.$on('evan.form.removeField', (field) => {
+				this.fields.splice(this.fields.findIndex((item) => item._uid === field._uid), 1)
+			})
 		}
 	}
 </script>
