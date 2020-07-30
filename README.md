@@ -130,7 +130,7 @@ data(){
 | content-style | label右侧内容的样式 | object| - | - |
 | label-position | label的位置，如果不设置则以evan-form中的该属性为准 | string | left/top | - |
 | required | 是否必填 | boolean | - | false |
-| message | 配合required使用，当required为true时提示的校验错误信息 | string | - | `${label}必填` |
+| message | 配合required使用，当required为true时提示的校验错误信息 | string | - | ${label}必填 |
 | rules | form-item的校验规则 | object/array | - | - |
 
 ### evan-form-item slot
