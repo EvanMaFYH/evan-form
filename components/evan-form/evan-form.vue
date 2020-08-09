@@ -96,7 +96,7 @@
 						showMessage: this.showMessage
 					})
 				} else {
-					return await utils.validate(this.model, this.mRules, callback, {
+					return await utils.validate(this.model, rules, callback, {
 						showMessage: this.showMessage
 					})
 				}
@@ -108,7 +108,7 @@
 						showMessage: this.showMessage
 					})
 				} else {
-					return await utils.validateField(this.model, this.mRules, props, callback, {
+					return await utils.validateField(this.model, rules, props, callback, {
 						showMessage: this.showMessage
 					})
 				}
