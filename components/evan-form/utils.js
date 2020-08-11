@@ -13,7 +13,6 @@ const utils = {
 				}
 			})
 		}
-		rules = null
 		// 如果需要验证的fields为空，调用验证时立刻返回callback
 		if (!rules || (Array.isArray(rules) && rules.length === 0) || (typeof rules === 'object' && Object.keys(rules).length ===
 				0)) {
