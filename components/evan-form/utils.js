@@ -96,12 +96,15 @@ const utils = {
 	},
 	validateItem(rules, prop, value, callback) {
 		if (!rules || JSON.stringify(rules) === '{}') {
-			if (callback instanceof Function) {
-				callback();
-			}
-			return true;
+			callback();
 		}
+		
 		const propRules = [].concat(rules[prop] || []);
+		
+		if (!propRules.length) {
+			callback();
+		}
+		
 		propRules.forEach((rule) => {
 			if (rule.pattern) {
 				rule.pattern = new RegExp(rule.pattern)
