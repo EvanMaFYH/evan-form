@@ -17,7 +17,7 @@ const utils = {
 		if (!rules || (Array.isArray(rules) && rules.length === 0) || (typeof rules === 'object' && Object.keys(rules).length ===
 				0)) {
 			callback(true, null);
-			if(promise){
+			if (promise) {
 				return promise
 			}
 			return
@@ -96,12 +96,17 @@ const utils = {
 	},
 	validateItem(rules, prop, value, callback) {
 		if (!rules || JSON.stringify(rules) === '{}') {
-			if (callback instanceof Function) {
-				callback();
-			}
-			return true;
+			callback();
+			return
 		}
+
 		const propRules = [].concat(rules[prop] || []);
+
+		if (!propRules.length) {
+			callback();
+			return
+		}
+
 		propRules.forEach((rule) => {
 			if (rule.pattern) {
 				rule.pattern = new RegExp(rule.pattern)
@@ -110,10 +115,12 @@ const utils = {
 		const descriptor = {
 			[prop]: propRules
 		};
+
 		const validator = new AsyncValidator(descriptor);
 		const model = {
 			[prop]: value
 		};
+
 		validator.validate(model, {
 			firstFields: true
 		}, (errors) => {
